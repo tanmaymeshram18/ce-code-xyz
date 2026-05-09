@@ -1,0 +1,54 @@
+clc;
+clear;
+close all;
+fs = 1000; % Sampling frequency
+t = 0:1/fs:1; % Time vector
+f = 10; % Signal frequency
+% Generate original signal
+signal = sin(2*pi*f*t);
+% Generate white noise
+noise = randn(size(t));
+% Scale noise
+noise = 0.5 * noise;
+% Noisy signal
+noisy_signal = signal + noise;
+% Calculate power
+signal_power = mean(signal.^2);
+noise_power = mean(noise.^2);
+% SNR calculation (dB)
+SNR = 10 * log10(signal_power / noise_power);
+% Assume system adds extra noise
+output_noise = noise + 0.2*randn(size(t));
+output_noise_power = mean(output_noise.^2);
+% Output SNR
+SNR_out = 10 * log10(signal_power / output_noise_power);
+% Noise Figure (NF)
+NF = SNR - SNR_out;
+% Display results
+disp(['Signal Power = ', num2str(signal_power)]);
+disp(['Noise Power = ', num2str(noise_power)]);
+disp(['SNR (dB) = ', num2str(SNR)]);
+1
+disp(['Noise Figure (dB) = ', num2str(NF)]);
+% Plot to generate original signal
+figure;
+plot(t, signal);
+title('Original Signal');
+xlabel('Time'); ylabel('Amplitude');
+grid on;
+% Plot to generate white noise signal
+figure;
+plot(t, noise);
+title('White Noise');
+xlabel('Time'); ylabel('Amplitude');
+grid on;
+% Plot to generate noisy signal(signal + noise)
+figure;
+plot(t, noisy_signal);
+title('Noisy Signal (Signal + Noise)');
+xlabel('Time'); ylabel('Amplitude');
+grid on;
+Signal Power = 0.4995
+Noise Power = 0.23547
+SNR (dB) = 3.2661
+Noise Figure (dB) = 0.68084
