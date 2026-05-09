@@ -1,0 +1,52 @@
+clc;
+clear all;
+close all;
+
+A = input('Enter the amplitude of the signal=');
+D = input('Enter the quantizer step size=');
+
+Ps = (A^2)/2;
+N = (D^2)/12;
+SNR = (Ps/N);
+
+
+SNRdB = 10 * log10(SNR); 
+
+fprintf('PCM SNR = %.2f dB\n\n', SNRdB);
+
+% Delta Modulation SNR Calculation
+
+
+
+% Parameters
+fs = 1000;
+t = 0:1/fs:1;
+fm = 5;
+delta = 0.1;          % Step size
+
+% Message signal
+x = sin(2*pi*fm*t);
+
+% Initialization
+xn = zeros(size(x));  % Reconstructed signal
+e = zeros(size(x));   % Error
+
+% Delta Modulation
+for i = 2:length(x)
+    if x(i) > xn(i-1)
+        xn(i) = xn(i-1) + delta;
+    else
+        xn(i) = xn(i-1) - delta;
+    end
+end
+
+
+
+% Error (noise)
+e = x - xn;
+
+% SNR calculation
+SNR_dm = 10 * log10(sum(x.^2) / sum(e.^2));
+
+% Display result
+fprintf('Delta Modulation SNR = %.2f dB\n', SNR_dm);
