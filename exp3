@@ -1,0 +1,42 @@
+clc;
+clear;
+close all;
+fm = 50;
+t = 0:0.00005:0.05;
+x = cos(2*pi*fm*t);
+% Original Signal
+figure;
+plot(t, x);
+xlabel('Time');
+ylabel('Amplitude');
+title('Sinusoidal Signal');
+% Sampling with fs = 1.3 * fm
+fs1 = 1.3 * fm;
+n1 = 0:1/fs1:0.05;
+xn1 = cos(2*pi*fm*n1);
+figure;
+plot(t, x, 'b', n1, xn1, 'r*-');
+xlabel('Time');
+ylabel('Amplitude');
+title('Sinusoidal Signal with fs = 1.3*fm');
+% Sampling with fs = 2 * fm (Nyquist Rate)
+fs2 = 2 * fm;
+n2 = 0:1/fs2:0.05;
+xn2 = cos(2*pi*fm*n2);
+figure;
+plot(t, x, 'b', n2, xn2, 'k*-');
+xlabel('Time');
+ylabel('Amplitude');
+title('Sinusoidal Signal with fs = 2*fm');
+% Sampling with fs = 50 * fm
+fs3 = 50 * fm;
+n3 = 0:1/fs3:0.05;
+xn3 = cos(2*pi*fm*n3);
+figure;
+plot(t, x, 'r');
+hold on;
+stem(n3, xn3, 'r*-');
+
+xlabel('Time');
+ylabel('Amplitude');
+title('Sinusoidal Signal with fs = 50*fm');
